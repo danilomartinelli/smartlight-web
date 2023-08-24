@@ -18,7 +18,14 @@ const App: React.FC = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get('https://smartlight-api.onrender.com/data');
-      setData(response.data);
+
+      // Ordena os registros pelo atributo time
+      const sortedData = response.data.sort((a: IData, b: IData) => b.time - a.time);
+
+      // Pega os últimos 10 registros
+      const lastTenRecords = sortedData.slice(0, 10);
+
+      setData(lastTenRecords);
       setLoading(false);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
